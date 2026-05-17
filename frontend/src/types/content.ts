@@ -18,6 +18,7 @@ export type ResultMetric = {
 
 export type PackageOption = {
   name: string
+  tag: string
   idealFor: string
   items: string[]
 }

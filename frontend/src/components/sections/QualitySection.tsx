@@ -1,14 +1,18 @@
-import { qualityPoints } from '../../data/siteContent'
+import { useSiteContent } from '../../hooks/useSiteContent'
+import { useI18n } from '../../i18n/I18nContext'
 import { BenefitCard } from '../cards/BenefitCard'
 import { SectionHeading } from './SectionHeading'
 
 export function QualitySection() {
+  const { t } = useI18n()
+  const { qualityPoints } = useSiteContent()
+
   return (
     <section className="section quality-section">
       <SectionHeading
-        eyebrow="Padrao de entrega"
-        title="Mais do que uma pagina bonita: uma base para sua empresa evoluir."
-        description="A estrutura do projeto considera performance, organizacao do codigo, manutencao e proximos passos como dominio, hospedagem e integracoes."
+        eyebrow={t.quality.eyebrow}
+        title={t.quality.title}
+        description={t.quality.description}
       />
 
       <div className="benefit-grid">

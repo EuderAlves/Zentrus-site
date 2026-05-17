@@ -1,31 +1,29 @@
 import { ArrowRight, BarChart3, CheckCircle2 } from 'lucide-react'
-import { proofPoints } from '../../data/siteContent'
+import { useI18n } from '../../i18n/I18nContext'
 import { ActionLink } from '../ui/ActionLink'
 
 export function HeroSection() {
+  const { t } = useI18n()
+
   return (
     <section className="hero-section">
       <div className="hero-content">
-        <p className="eyebrow">Sites profissionais para empresas</p>
-        <h1>Seu site precisa gerar confianca antes de pedir um clique.</h1>
-        <p className="hero-copy">
-          A Zentrus Tecnologia cria sites, paginas de venda e sistemas simples para empresas
-          que querem aparecer melhor, explicar seus servicos com clareza e receber pedidos de
-          orcamento sem depender de improviso.
-        </p>
+        <p className="eyebrow">{t.hero.eyebrow}</p>
+        <h1>{t.hero.title}</h1>
+        <p className="hero-copy">{t.hero.copy}</p>
 
         <div className="hero-actions">
           <ActionLink to="/orcamento">
-            Quero pedir um orcamento
+            {t.hero.primaryAction}
             <ArrowRight aria-hidden="true" size={18} />
           </ActionLink>
           <ActionLink className="secondary-action" to="/servicos">
-            Ver o que posso criar
+            {t.hero.secondaryAction}
           </ActionLink>
         </div>
 
-        <div className="hero-proof" aria-label="Diferenciais principais">
-          {proofPoints.map((point) => (
+        <div className="hero-proof" aria-label={t.hero.proofAria}>
+          {t.proofPoints.map((point) => (
             <span key={point}>
               <CheckCircle2 aria-hidden="true" size={18} />
               {point}
@@ -34,34 +32,33 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="hero-showcase" aria-label="Previa de site profissional">
+      <div className="hero-showcase" aria-label={t.hero.showcaseAria}>
         <div className="browser-bar">
           <span></span>
           <span></span>
           <span></span>
-          <strong>zentrus.dev/orcamento</strong>
+          <strong>{t.hero.browserPath}</strong>
         </div>
 
         <div className="showcase-body">
           <div className="showcase-copy">
-            <span className="mini-label">Pagina pronta para vender</span>
-            <strong>Transforme visitas em conversas comerciais.</strong>
-            <p>Oferta clara, servicos organizados, prova de confianca e chamada para contato.</p>
+            <span className="mini-label">{t.hero.miniLabel}</span>
+            <strong>{t.hero.showcaseTitle}</strong>
+            <p>{t.hero.showcaseText}</p>
           </div>
 
           <div className="conversion-panel">
             <div>
-              <span>Leads captados</span>
-              <strong>32</strong>
+              <span>{t.hero.leadsLabel}</span>
+              <strong>{t.hero.leadsValue}</strong>
             </div>
             <BarChart3 aria-hidden="true" size={72} />
           </div>
 
           <div className="showcase-grid">
-            <span>Home estrategica</span>
-            <span>Formulario conectado</span>
-            <span>Layout responsivo</span>
-            <span>Suporte pos-entrega</span>
+            {t.hero.showcaseItems.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </div>
       </div>

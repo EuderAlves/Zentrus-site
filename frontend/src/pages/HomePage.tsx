@@ -1,5 +1,4 @@
 import { ArrowRight } from 'lucide-react'
-import { packages, processSteps, services } from '../data/siteContent'
 import { CtaSection } from '../components/sections/CtaSection'
 import { FaqSection } from '../components/sections/FaqSection'
 import { HeroSection } from '../components/sections/HeroSection'
@@ -10,8 +9,13 @@ import { SectionHeading } from '../components/sections/SectionHeading'
 import { ServicesGrid } from '../components/sections/ServicesGrid'
 import { WhyInvestSection } from '../components/sections/WhyInvestSection'
 import { ActionLink } from '../components/ui/ActionLink'
+import { useSiteContent } from '../hooks/useSiteContent'
+import { useI18n } from '../i18n/I18nContext'
 
 export function HomePage() {
+  const { t } = useI18n()
+  const { packages, processSteps, services } = useSiteContent()
+
   return (
     <main>
       <HeroSection />
@@ -20,15 +24,15 @@ export function HomePage() {
 
       <section className="section services-section">
         <SectionHeading
-          eyebrow="Servicos"
-          title="O que eu posso construir para sua empresa."
-          description="Cada projeto pode comecar pequeno e evoluir conforme sua empresa ganha clareza, publico e necessidade de novas funcionalidades."
+          eyebrow={t.homeServices.eyebrow}
+          title={t.homeServices.title}
+          description={t.homeServices.description}
           split
         />
         <ServicesGrid items={services.slice(0, 3)} />
         <div className="section-action">
           <ActionLink className="secondary-action" to="/servicos">
-            Ver todos os servicos
+            {t.common.seeAllServices}
             <ArrowRight aria-hidden="true" size={18} />
           </ActionLink>
         </div>
@@ -36,17 +40,17 @@ export function HomePage() {
 
       <section className="section packages-section">
         <SectionHeading
-          eyebrow="Solucoes"
-          title="Escolha o tipo de projeto que combina com o seu momento."
+          eyebrow={t.homeSolutions.eyebrow}
+          title={t.homeSolutions.title}
         />
         <PackagesGrid items={packages} />
       </section>
 
       <section className="section process-section">
         <SectionHeading
-          eyebrow="Processo"
-          title="Do primeiro contato ate o site publicado."
-          description="O caminho e organizado para voce saber o que esta sendo feito, o que falta decidir e quando o projeto fica pronto para ir ao ar."
+          eyebrow={t.homeProcess.eyebrow}
+          title={t.homeProcess.title}
+          description={t.homeProcess.description}
           split
         />
         <ProcessGrid items={processSteps} />

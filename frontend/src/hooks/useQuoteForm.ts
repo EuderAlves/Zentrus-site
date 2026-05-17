@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useI18n } from '../i18n/I18nContext'
 import { submitQuoteRequest } from '../services/quoteApi'
 import type { QuoteFormFields, QuoteSubmitState } from '../types/quote'
 
@@ -12,6 +13,7 @@ const initialForm: QuoteFormFields = {
 }
 
 export function useQuoteForm() {
+  const { t } = useI18n()
   const [form, setForm] = useState<QuoteFormFields>(initialForm)
   const [showContactFields, setShowContactFields] = useState(false)
   const [submitState, setSubmitState] = useState<QuoteSubmitState>('idle')
@@ -23,11 +25,11 @@ export function useQuoteForm() {
       return ''
     }
 
-    const customerName = lastSubmittedName || form.name || 'cliente'
-    const text = `Ola, sou ${customerName} e solicitei um orcamento pelo site da Zentrus Tecnologia.`
+    const customerName = lastSubmittedName || form.name || t.quoteForm.customerFallback
+    const text = `${t.quoteForm.successTitle} ${customerName} - ${t.brand}`
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`
-  }, [form.name, lastSubmittedName])
+  }, [form.name, lastSubmittedName, t.brand, t.quoteForm.customerFallback, t.quoteForm.successTitle])
 
   function updateField(field: keyof QuoteFormFields, value: string) {
     setForm((currentForm) => ({ ...currentForm, [field]: value }))
@@ -36,7 +38,7 @@ export function useQuoteForm() {
 
   function requestContactFields() {
     if (form.message.trim().length < 10) {
-      setErrorMessage('Descreva sua ideia com pelo menos 10 caracteres.')
+      setErrorMessage(t.quoteForm.minMessageError)
       return
     }
 
@@ -59,7 +61,7 @@ export function useQuoteForm() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : 'Nao foi possivel enviar sua solicitacao agora.',
+          : t.quoteForm.genericError,
       )
     }
   }

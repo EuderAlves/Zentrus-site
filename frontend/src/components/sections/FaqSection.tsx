@@ -1,13 +1,17 @@
-import { faqs } from '../../data/siteContent'
+import { useSiteContent } from '../../hooks/useSiteContent'
+import { useI18n } from '../../i18n/I18nContext'
 import { FaqCard } from '../cards/FaqCard'
 import { SectionHeading } from './SectionHeading'
 
 export function FaqSection() {
+  const { t } = useI18n()
+  const { faqs } = useSiteContent()
+
   return (
     <section className="section faq-section">
       <SectionHeading
-        eyebrow="Duvidas comuns"
-        title="Perguntas que geralmente aparecem antes do orcamento."
+        eyebrow={t.faq.eyebrow}
+        title={t.faq.title}
       />
 
       <div className="faq-grid">

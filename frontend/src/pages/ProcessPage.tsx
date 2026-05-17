@@ -2,27 +2,31 @@ import { CtaSection } from '../components/sections/CtaSection'
 import { PageHero } from '../components/sections/PageHero'
 import { ProcessGrid } from '../components/sections/ProcessGrid'
 import { SectionHeading } from '../components/sections/SectionHeading'
-import { processSteps } from '../data/siteContent'
+import { useSiteContent } from '../hooks/useSiteContent'
+import { useI18n } from '../i18n/I18nContext'
 
 export function ProcessPage() {
+  const { t } = useI18n()
+  const { processSteps } = useSiteContent()
+
   return (
     <main>
       <PageHero
-        eyebrow="Processo"
-        title="Um processo claro evita retrabalho e deixa o projeto mais leve."
-        description="A construcao e dividida em etapas para voce saber o que precisa aprovar, o que esta sendo desenvolvido e quando o site pode ir para o ar."
+        eyebrow={t.processPage.hero.eyebrow}
+        title={t.processPage.hero.title}
+        description={t.processPage.hero.description || ''}
       >
         <div className="hero-note">
-          <strong>Transparencia no caminho.</strong>
-          <span>Menos surpresa, mais clareza sobre escopo, prazo e prioridades.</span>
+          <strong>{t.processPage.noteTitle}</strong>
+          <span>{t.processPage.noteText}</span>
         </div>
       </PageHero>
 
       <section className="section process-section">
         <SectionHeading
-          eyebrow="Etapas"
-          title="Do primeiro contato ate a publicacao."
-          description="Cada etapa tem um objetivo simples: entender, propor, criar e colocar no ar."
+          eyebrow={t.processPage.section.eyebrow}
+          title={t.processPage.section.title}
+          description={t.processPage.section.description}
           split
         />
         <ProcessGrid items={processSteps} />
@@ -30,29 +34,23 @@ export function ProcessPage() {
 
       <section className="section delivery-section">
         <SectionHeading
-          eyebrow="Durante o projeto"
-          title="Voce acompanha o que esta sendo feito sem precisar entender de codigo."
+          eyebrow={t.processPage.delivery.eyebrow}
+          title={t.processPage.delivery.title}
         />
 
         <div className="delivery-grid">
-          <article>
-            <h3>Briefing objetivo</h3>
-            <p>As primeiras informacoes definem oferta, publico, paginas e funcionalidades.</p>
-          </article>
-          <article>
-            <h3>Ajustes com direcao</h3>
-            <p>As mudancas sao feitas com foco em clareza, conversao e experiencia do cliente.</p>
-          </article>
-          <article>
-            <h3>Entrega orientada</h3>
-            <p>Voce recebe o projeto com explicacao sobre publicacao, formulario e proximos passos.</p>
-          </article>
+          {t.processPage.deliveryItems.map((item) => (
+            <article key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
       <CtaSection
-        title="Quer iniciar com um escopo bem definido?"
-        text="Envie o que voce tem em mente e eu retorno com uma proposta organizada."
+        title={t.processPage.ctaTitle}
+        text={t.processPage.ctaText}
       />
     </main>
   )

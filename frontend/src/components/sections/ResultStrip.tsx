@@ -1,8 +1,10 @@
-import { resultMetrics } from '../../data/siteContent'
+import { useSiteContent } from '../../hooks/useSiteContent'
 
 export function ResultStrip() {
+  const { resultMetrics } = useSiteContent()
+
   return (
-    <section className="result-strip" aria-label="Indicadores de valor">
+    <section className="result-strip">
       {resultMetrics.map((result) => (
         <article key={result.value}>
           <strong>{result.value}</strong>

@@ -1,14 +1,18 @@
-import { benefits } from '../../data/siteContent'
+import { useSiteContent } from '../../hooks/useSiteContent'
+import { useI18n } from '../../i18n/I18nContext'
 import { BenefitCard } from '../cards/BenefitCard'
 import { SectionHeading } from './SectionHeading'
 
 export function WhyInvestSection() {
+  const { t } = useI18n()
+  const { benefits } = useSiteContent()
+
   return (
     <section className="section why-section">
       <SectionHeading
-        eyebrow="Por que investir"
-        title="Um bom site trabalha como uma primeira reuniao bem feita."
-        description="Ele mostra quem voce e, organiza suas ofertas, antecipa duvidas e facilita o contato de quem ja esta procurando uma solucao."
+        eyebrow={t.why.eyebrow}
+        title={t.why.title}
+        description={t.why.description}
       />
 
       <div className="benefit-grid">

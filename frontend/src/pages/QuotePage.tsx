@@ -1,18 +1,21 @@
 import { FaqSection } from '../components/sections/FaqSection'
 import { PageHero } from '../components/sections/PageHero'
 import { QuoteRequestSection } from '../components/sections/QuoteRequestSection'
+import { useI18n } from '../i18n/I18nContext'
 
 export function QuotePage() {
+  const { t } = useI18n()
+
   return (
     <main>
       <PageHero
-        eyebrow="Orcamento"
-        title="Solicite uma proposta para seu site, sistema ou suporte."
-        description="Quanto mais claro for o pedido, melhor consigo entender o escopo. Mas nao precisa estar perfeito: descreva sua ideia com suas palavras."
+        eyebrow={t.quotePage.hero.eyebrow}
+        title={t.quotePage.hero.title}
+        description={t.quotePage.hero.description || ''}
       >
         <div className="hero-note">
-          <strong>O que enviar?</strong>
-          <span>Tipo de empresa, objetivo do site, paginas desejadas e exemplos de funcionalidades.</span>
+          <strong>{t.quotePage.noteTitle}</strong>
+          <span>{t.quotePage.noteText}</span>
         </div>
       </PageHero>
 

@@ -1,9 +1,10 @@
 import type { FormEvent } from 'react'
-import { ArrowRight, CheckCircle2, Clock3, Mail, MessageCircle, Send } from 'lucide-react'
-import { contactEmail } from '../../data/siteContent'
+import { ArrowRight, CheckCircle2, Clock3, MessageCircle, Send } from 'lucide-react'
 import { useQuoteForm } from '../../hooks/useQuoteForm'
+import { useI18n } from '../../i18n/I18nContext'
 
 export function QuoteRequestSection() {
+  const { t } = useI18n()
   const {
     form,
     showContactFields,
@@ -24,22 +25,15 @@ export function QuoteRequestSection() {
   return (
     <section className="quote-section">
       <div className="quote-copy">
-        <p className="eyebrow">Pedido de orcamento</p>
-        <h2>Me conte o que voce quer vender, divulgar ou organizar.</h2>
-        <p>
-          Descreva sua ideia em poucas linhas. Depois informe seus dados para eu receber a
-          solicitacao no email e retornar com os proximos passos.
-        </p>
+        <p className="eyebrow">{t.quoteForm.eyebrow}</p>
+        <h2>{t.quoteForm.title}</h2>
+        <p>{t.quoteForm.description}</p>
 
         <div className="quote-info">
           <span>
             <Clock3 aria-hidden="true" size={18} />
-            Retorno o mais breve possivel
+            {t.quoteForm.responseTime}
           </span>
-          <a href={`mailto:${contactEmail}`}>
-            <Mail aria-hidden="true" size={18} />
-            {contactEmail}
-          </a>
         </div>
       </div>
 
@@ -47,32 +41,30 @@ export function QuoteRequestSection() {
         {submitState === 'success' ? (
           <div className="success-message" role="status">
             <CheckCircle2 aria-hidden="true" size={36} />
-            <h3>Solicitacao enviada.</h3>
-            <p>
-              Recebi seu pedido de orcamento e vou retornar o mais breve possivel.
-            </p>
+            <h3>{t.quoteForm.successTitle}</h3>
+            <p>{t.quoteForm.successText}</p>
 
             <div className="success-actions">
               <button type="button" className="secondary-button" onClick={resetQuoteForm}>
-                Enviar outro pedido
+                {t.quoteForm.sendAnother}
               </button>
 
               {whatsappLink && (
                 <a className="whatsapp-button" href={whatsappLink} target="_blank" rel="noreferrer">
                   <MessageCircle aria-hidden="true" size={18} />
-                  Continuar no WhatsApp
+                  {t.quoteForm.continueWhatsApp}
                 </a>
               )}
             </div>
           </div>
         ) : (
           <>
-            <label htmlFor="message">O que voce precisa?</label>
+            <label htmlFor="message">{t.quoteForm.needLabel}</label>
             <textarea
               id="message"
               name="message"
               minLength={10}
-              placeholder="Exemplo: Preciso de um site para minha empresa apresentar servicos, receber pedidos de orcamento e passar mais confianca."
+              placeholder={t.quoteForm.needPlaceholder}
               required
               value={form.message}
               onChange={(event) => updateField('message', event.target.value)}
@@ -80,7 +72,7 @@ export function QuoteRequestSection() {
 
             {showContactFields && (
               <div className="contact-fields">
-                <label htmlFor="name">Nome</label>
+                <label htmlFor="name">{t.quoteForm.nameLabel}</label>
                 <input
                   id="name"
                   name="name"
@@ -91,7 +83,7 @@ export function QuoteRequestSection() {
                   onChange={(event) => updateField('name', event.target.value)}
                 />
 
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t.quoteForm.emailLabel}</label>
                 <input
                   id="email"
                   name="email"
@@ -102,7 +94,7 @@ export function QuoteRequestSection() {
                   onChange={(event) => updateField('email', event.target.value)}
                 />
 
-                <label htmlFor="phone">Telefone ou WhatsApp</label>
+                <label htmlFor="phone">{t.quoteForm.phoneLabel}</label>
                 <input
                   id="phone"
                   name="phone"
@@ -119,12 +111,12 @@ export function QuoteRequestSection() {
 
             {!showContactFields ? (
               <button type="button" className="submit-button" onClick={requestContactFields}>
-                Enviar
+                {t.quoteForm.send}
                 <ArrowRight aria-hidden="true" size={18} />
               </button>
             ) : (
               <button type="submit" className="submit-button" disabled={submitState === 'sending'}>
-                {submitState === 'sending' ? 'Enviando...' : 'Confirmar solicitacao'}
+                {submitState === 'sending' ? t.quoteForm.sending : t.quoteForm.confirm}
                 <Send aria-hidden="true" size={18} />
               </button>
             )}
