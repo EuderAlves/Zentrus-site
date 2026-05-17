@@ -5,7 +5,6 @@ import type { Locale } from '../../types/i18n'
 
 export function LanguageSelector() {
   const { locale, setLocale, t } = useI18n()
-  const selectedLanguage = languageOptions.find((option) => option.code === locale)
 
   function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     setLocale(event.target.value as Locale)
