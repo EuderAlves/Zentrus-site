@@ -2,6 +2,7 @@ import { Resend } from 'resend'
 
 const ownerEmail = process.env.OWNER_EMAIL || 'euder.alv@gmail.com'
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'Zentrus Tecnologia <onboarding@resend.dev>'
+const shouldSendCustomerConfirmation = process.env.RESEND_SEND_CUSTOMER_CONFIRMATION === 'true'
 
 function escapeHtml(value) {
   return String(value)
@@ -51,7 +52,7 @@ function buildCustomerEmail(quote) {
     html: `
       <div style="font-family: Arial, sans-serif; color: #0f172a; line-height: 1.5;">
         <h1 style="margin: 0 0 16px;">Recebemos sua solicitacao</h1>
-        <p>Olá, ${escapeHtml(quote.name)}.</p>
+        <p>Ola, ${escapeHtml(quote.name)}.</p>
         <p>
           Seu pedido de orcamento foi recebido pela Zentrus Tecnologia.
           Vamos analisar as informacoes e retornar o mais breve possivel.
@@ -62,7 +63,7 @@ function buildCustomerEmail(quote) {
       </div>
     `,
     text: [
-      `Olá, ${quote.name}.`,
+      `Ola, ${quote.name}.`,
       '',
       'Seu pedido de orcamento foi recebido pela Zentrus Tecnologia.',
       'Vamos analisar as informacoes e retornar o mais breve possivel.',
@@ -84,22 +85,32 @@ export async function sendQuoteEmails(quote) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const ownerEmailContent = buildOwnerEmail(quote)
-  const customerEmailContent = buildCustomerEmail(quote)
-
-  await Promise.all([
+  const emailRequests = [
     resend.emails.send({
       from: fromEmail,
       to: ownerEmail,
       replyTo: quote.email,
       ...ownerEmailContent,
     }),
-    resend.emails.send({
-      from: fromEmail,
-      to: quote.email,
-      replyTo: ownerEmail,
-      ...customerEmailContent,
-    }),
-  ])
+  ]
 
-  return { mode: 'resend' }
+  if (shouldSendCustomerConfirmation) {
+    const customerEmailContent = buildCustomerEmail(quote)
+
+    emailRequests.push(
+      resend.emails.send({
+        from: fromEmail,
+        to: quote.email,
+        replyTo: ownerEmail,
+        ...customerEmailContent,
+      }),
+    )
+  }
+
+  await Promise.all(emailRequests)
+
+  return {
+    mode: 'resend',
+    customerConfirmation: shouldSendCustomerConfirmation,
+  }
 }
