@@ -14,9 +14,6 @@ export function LanguageSelector() {
   return (
     <label className="language-selector">
       <span className="sr-only">{t.languageSelector.label}</span>
-      <span aria-hidden="true" className="language-flag">
-        {selectedLanguage?.flag}
-      </span>
       <select aria-label={t.languageSelector.label} value={locale} onChange={handleChange}>
         {languageOptions.map((option) => (
           <option key={option.code} value={option.code}>
