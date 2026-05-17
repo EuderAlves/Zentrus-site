@@ -49,7 +49,7 @@ export function QuoteRequestSection() {
             <CheckCircle2 aria-hidden="true" size={36} />
             <h3>Solicitacao enviada.</h3>
             <p>
-              Recebi seu pedido de orcamento. Voce tambem recebera uma confirmacao por email.
+              Recebi seu pedido de orcamento e vou retornar o mais breve possivel.
             </p>
 
             <div className="success-actions">
